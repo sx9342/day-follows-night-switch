@@ -1,0 +1,165 @@
+* {
+    /* 初始化，清除元素内外边距 */
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    /* 设置body样式，使其内容居中显示 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vm;
+    height: 100vh;
+}
+
+.background{
+    /* 设置背景样式，覆盖整个视口 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #c2e9f6;
+    /* 背景图层，最底层 */
+    z-index: -1; 
+    /* 设置过渡效果，所有属性将在0.25秒内逐渐改变，以ease-in方式开始 */
+    transition: all 0.25s ease-in;
+    /* transition: property duration timing-function delay;
+        property: 指定应用过渡效果的 CSS 属性。可以是单个属性（如 color、background-color）或 all（表示所有可动画的属性）。 duration: 过渡效果的持续时间，单位可以是秒（s）或毫秒（ms）。 timing-function: 定义过渡效果的速度曲线。常见的值有 linear、ease、ease-in、ease-out 和 ease-in-out。 delay（可选）: 过渡效果开始前的延迟时间，单位可以是秒（s）或毫秒（ms）。 */
+}
+
+input{
+    /* 隐藏复选框 */
+    display: none;
+}
+
+label{
+    /* 画一个框 */
+    position: relative;
+    width: 200px;
+    height: 100px;
+    border-radius: 100px;  /* 圆角 */
+    border: 5px solid #72cce3;
+    background-color: #96dcee;
+    transition: all 0.35s ease-in ;
+}
+
+label::before{
+    /* 创建一个圆形装饰元素 */
+    content: '';
+    position: absolute;
+    top :4px;
+    left: 4px;
+    width: 82px;
+    height: 82px;
+    border-radius: 50%;
+    border: 5px solid #f5eb71;
+    background-color: #fffaa8;
+    transition: all 0.35s ease-in;
+    animation: switch-reverse 0.35s forwards;
+}
+label::after{
+    /* 创建一个用于显示选中状态的元素 */
+    content: "";
+    position: absolute;
+    top: 23px;
+    left: 143px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: -13px 0 0 2px #e8e8ea,-24px 14px 0 -2px #e8e8ea;
+    transition: all 0.25s ease-in;
+    /* 设置不透明度为0，隐藏 */
+    opacity: 0;
+}
+
+label span{
+    /* 创建一个用于显示未选中状态的元素 */
+    position: relative;
+    top: 45px;
+    left: 135px;
+    /* span是行内元素，要转成块级元素才能设置宽度和高度 */
+    display: block;
+    width: 10px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+label span::before,label span::after{
+    /* 创建两个用于显示未选中状态的子元素 */
+    content: "";
+    position: absolute;
+    width: 40px;
+    height: 5px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition: all 0.15s ease-in;
+}
+
+label span::before{
+    top: -5px;
+    left: -20px;
+}
+label span::after{
+    top: 5px;
+    left: -10px;
+}
+
+input:checked ~ .background{
+    /* 当复选框被选中时，改变背景颜色 */
+    background-color: #808fc7;
+}
+
+input:checked+label{
+    /* 当复选框被选中时，改变标签的边框和背景颜色 */
+    border-color: #5d6baa;
+    background-color: #6b7abb;
+}
+input:checked+label::before{
+    /* 当复选框被选中时，改变圆形装饰元素的样式 */
+   border-color:#e8e8ea ;
+   background-color: #fff;
+   animation: switch 0.35s forwards ;
+   cursor: pointer ;
+}
+input:checked+label::after{
+    /* 当复选框被选中时，显示选中状态的元素 */
+    opacity: 1;
+    transition-delay:0.25s;
+}
+
+input:checked +label span{
+    /* 当复选框被选中时，改变未选中状态元素的样式 */
+    width:5px;
+    left: 60px;   
+}
+
+input:checked +label span::before{
+    /* 当复选框被选中时，改变未选中状态子元素的样式 */
+    width: 5px;
+    left: 5px;
+    top: -25px;
+}
+input:checked + label span::after{
+    /* 当复选框被选中时，改变未选中状态子元素的样式 */
+    width: 5px;
+    height: 5px;
+    top: 20px;
+    left: -30px;
+}
+
+@keyframes switch{
+    /* 定义复选框选中状态的动画 */
+    0%{left: 4px;}
+    60%{left: 4px; width: 112px;}
+    100%{left: 104px;}
+}
+
+/* 定义取消复选框选中状态的动画 */
+@keyframes switch-reverse{
+    0%{left: 104px;}
+    60%{left: 4px; width: 112px;}
+    100%{left: 4px;}
+}
